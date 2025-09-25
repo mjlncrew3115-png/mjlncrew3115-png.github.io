@@ -1,96 +1,43 @@
 /*
 Colorblind safe color palette from colorbrewer2.org
-<<<<<<< HEAD
 #fbb4b9 - Light Pink (page background)
 #c51b8a - Magenta (body text)
-#7a0177 - Deep Purple (header pannel)
+#7a0177 - Deep Purple (heading background and Reseach heading)
 #feebe2 - Very Light Pink (content panel)
-#f7f7f7 - White (header text)
+#f7f7f7 - White (heading color)
 */
 
 body {
   background-color: #fbb4b9;   /* page background */
-  color: #c51b8a;              /* default text color */
+  color: #c51b8a;              /* Magenta text color */
   text-align: center;          /* center inline text */
-  margin: 0;                   /* remove default body margins */
+  margin: 0;                   /* remove default margins */
 }
 
 h1 {
   color: #f7f7f7;              /* heading color */
-  padding: 5px;                /* inner spacing */
+  padding: 5px;                /* added inner spacing */
   margin: 0;                   /* remove default h1 margins */
-=======
-#fbb4b9 - Light Pink (background)
-#c51b8a - Magenta (body text)
-#7a0177 - Deep Purple (headings)
-*/
-
-body {
-  background-color: #fbb4b9;   /* Page background */
-  color: #c51b8a;              /* Default text color */
-  text-align: center;          /* Center text */
-  margin: 0;                   /* Remove default margins */
 }
 
-h1 {
-  color: #7a0177;              /* Heading color */
-  padding: 5px;                /* Add space inside the element */
-  margin: 0;                   /* Remove extra margin above/below */
-}
-
-/* Container wraps the whole page */
+/* Main content wrapper wraps whole page
+(prevents right-side clipping with padding + box-sizing) */
 #body-container {
-  background-color: #ffffff;   /* White background for content box */
-  max-width: 1000px;           /* Limit width of content */
-  margin: auto;                /* Center the container */
-  min-height: 100vh;           /* Full viewport height */
-  border: 2px solid #fbb4b9;   /* Border in your pink shade */
-  border-radius: 25px;         /* Rounded corners */
-  overflow: hidden;            /* Prevent overflow */
-}
-
-/* Header section */
-#header {
-  background-color: #7a0177;   /* Deep purple header background */
-  color: #ffffff;              /* White text for contrast */
-}
-
-/* Profile picture section */
-#profile-picture {
-  float: left;                 /* Float image to the left */
-}
-
-/* Welcome text section */
-#welcome-text {
-  padding-top: 25px;
-  font-size: 25px;
-}
-
-/* Research interests section */
-#research-interests {
-  text-align: left;
-  font-size: 25px;
-  position: relative;
-  left: 50px;
->>>>>>> 5995230d9f56c4e7c94ba1d131fb51cb1d84c4ec
-}
-
-/* Main content wrapper (prevents right-side clipping with padding + box-sizing) */
-#body-container {
-  background-color: #feebe2;   /* Very light Pink background for content box  */
-  max-width: 1000px;           /* Limit width of content */
+  background-color: #feebe2;   /* Very light pink panel color */
+  max-width: 1000px;           /* cap width; stays responsive below 1000px */
   margin: auto;                /* center the container */
-  min-height: 100vh;           /* full viewport height */
-  border: 2px solid #fbb4b9;   /* border in light pink */
+  min-height: 100vh;           /* fill viewport height */
+  border: 2px solid #fbb4b9;   /* subtle light pink boarder */
   border-radius: 25px;         /* rounded corners */
   overflow: hidden;            /* prevents overflow */
   padding: 16px 24px;          /* side padding prevents text from touching edges */
   box-sizing: border-box;      /* include padding/border in width calc */
 }
 
-/* Header Section */
+/* Header bar */
 #header {
-  background-color: #7a0177;   /* Deep Purple header backgroung */
+  background-color: #7a0177;   /* Deep purple header background */
+
 }
 
 /* ===== Two-column layout with floats ===== */
@@ -138,3 +85,4 @@ h1 {
   margin: 0;                   /* align list with heading */
   padding-left: 1.2em;         /* ensure numbers sit outside text block */
   list-style-position: outside;/* consistent number alignment */
+}

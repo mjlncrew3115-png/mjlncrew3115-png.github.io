@@ -54,7 +54,11 @@ h1 {
 }
 
 /* Right column: welcome + research stay aligned as one column */
-#welcome-text,
+#welcome-text {
+  float: right;                /* stack these on the right side */
+  width: 38%;                  /* right column width */
+  text-align: center;
+}
 #research-interests {
   float: right;                /* stack these on the right side */
   width: 38%;                  /* right column width */
@@ -85,4 +89,14 @@ h1 {
   margin: 0;                   /* align list with heading */
   padding-left: 1.2em;         /* ensure numbers sit outside text block */
   list-style-position: outside;/* consistent number alignment */
+}
+
+#copyright {
+  bottom: 20px;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
 }

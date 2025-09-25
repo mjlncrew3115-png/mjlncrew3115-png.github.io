@@ -1,16 +1,85 @@
 /*
 Colorblind safe color palette from colorbrewer2.org
-#fbb4b9 - Light Pink
-#c51b8a - Magenta
-#7a0177 - Deep Purple
+#fbb4b9 - Light Pink (page background)
+#c51b8a - Magenta (body text)
+#7a0177 - Deep Purple (header pannel)
+#feebe2 - Very Light Pink (content panel)
+#f7f7f7 - White (header text)
 */
 
 body {
-  background-color: #fbb4b9;
-  color: #c51b8a;
-  text-align: center;
+  background-color: #fbb4b9;   /* page background */
+  color: #c51b8a;              /* default text color */
+  text-align: center;          /* center inline text */
+  margin: 0;                   /* remove default body margins */
 }
 
 h1 {
-  color: #7a0177;
+  color: #f7f7f7;              /* heading color */
+  padding: 5px;                /* inner spacing */
+  margin: 0;                   /* remove default h1 margins */
 }
+
+/* Main content wrapper (prevents right-side clipping with padding + box-sizing) */
+#body-container {
+  background-color: #feebe2;   /* Very light Pink background for content box  */
+  max-width: 1000px;           /* Limit width of content */
+  margin: auto;                /* center the container */
+  min-height: 100vh;           /* full viewport height */
+  border: 2px solid #fbb4b9;   /* border in light pink */
+  border-radius: 25px;         /* rounded corners */
+  overflow: hidden;            /* prevents overflow */
+  padding: 16px 24px;          /* side padding prevents text from touching edges */
+  box-sizing: border-box;      /* include padding/border in width calc */
+}
+
+/* Header Section */
+#header {
+  background-color: #7a0177;   /* Deep Purple header backgroung */
+}
+
+/* ===== Two-column layout with floats ===== */
+/* Left column: image slightly smaller via % width */
+#profile-picture {
+  float: left;                 /* image column on the left */
+  width: 58%;                  /* image column width (slightly smaller) */
+  margin-right: 24px;          /* space between image and right column */
+}
+#profile-picture img {
+  width: 100%;                 /* scale image to the column */
+  height: auto;                /* preserve aspect ratio */
+  display: block;              /* remove inline gaps */
+}
+
+/* Right column: welcome + research stay aligned as one column */
+#welcome-text,
+#research-interests {
+  float: right;                /* stack these on the right side */
+  width: 38%;                  /* right column width */
+  text-align: left;            /* readable paragraph/list alignment */
+}
+
+/* Keep the order: interests sits below welcome inside the right column */
+#research-interests { clear: right; }  /* ensures “4.” lines up under 1–3 */
+
+/* Slightly smaller body text as requested */
+#welcome-text {
+  padding-top: 18px;           /* vertical balance vs. image */
+  font-size: 20px;             /* was 25px */
+  line-height: 1.4;            /* comfortable reading */
+}
+
+/* Research list styling + smaller text */
+#research-interests {
+  font-size: 20px;             /* was 25px */
+  line-height: 1.4;            /* match paragraph rhythm */
+  padding-left: 8px;           /* gentle indent (panel already padded) */
+}
+#research-interests h3 {
+  margin: 0 0 8px 0;           /* tighten heading space */
+  color: #7a0177;              /* match heading color */
+}
+#research-interests ol {
+  margin: 0;                   /* align list with heading */
+  padding-left: 1.2em;         /* ensure numbers sit outside text block */
+  list-style-position: outside;/* consistent number alignment */

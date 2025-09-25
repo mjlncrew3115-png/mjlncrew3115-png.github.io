@@ -1,16 +1,55 @@
 /*
 Colorblind safe color palette from colorbrewer2.org
-#fbb4b9 - Light Pink
-#c51b8a - Magenta
-#7a0177 - Deep Purple
+#fbb4b9 - Light Pink (background)
+#c51b8a - Magenta (body text)
+#7a0177 - Deep Purple (headings)
 */
 
 body {
-  background-color: #fbb4b9;
-  color: #c51b8a;
-  text-align: center;
+  background-color: #fbb4b9;   /* Page background */
+  color: #c51b8a;              /* Default text color */
+  text-align: center;          /* Center text */
+  margin: 0;                   /* Remove default margins */
 }
 
 h1 {
-  color: #7a0177;
+  color: #7a0177;              /* Heading color */
+  padding: 5px;                /* Add space inside the element */
+  margin: 0;                   /* Remove extra margin above/below */
+}
+
+/* Container wraps the whole page */
+#body-container {
+  background-color: #ffffff;   /* White background for content box */
+  max-width: 1000px;           /* Limit width of content */
+  margin: auto;                /* Center the container */
+  min-height: 100vh;           /* Full viewport height */
+  border: 2px solid #fbb4b9;   /* Border in your pink shade */
+  border-radius: 25px;         /* Rounded corners */
+  overflow: hidden;            /* Prevent overflow */
+}
+
+/* Header section */
+#header {
+  background-color: #7a0177;   /* Deep purple header background */
+  color: #ffffff;              /* White text for contrast */
+}
+
+/* Profile picture section */
+#profile-picture {
+  float: left;                 /* Float image to the left */
+}
+
+/* Welcome text section */
+#welcome-text {
+  padding-top: 25px;
+  font-size: 25px;
+}
+
+/* Research interests section */
+#research-interests {
+  text-align: left;
+  font-size: 25px;
+  position: relative;
+  left: 50px;
 }

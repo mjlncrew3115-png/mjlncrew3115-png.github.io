@@ -109,3 +109,14 @@ h1 {
   margin-top: 50px;  /* adds some spacing below the picture */
   margin-bottom: 30px;
 }
+
+/* Adjust Leaflet map placement and alignment */
+#mapid {
+  display: block;
+  width: 600px;
+  height: 400px;
+  margin: 20px auto 0 auto; /* centers and moves it up */
+  position: relative;
+  top: -10px; /* lift it slightly closer to the Webmap Reviews section */
+  border-radius: 10px; /* optional: keeps your rounded style aesthetic */
+}

@@ -15,7 +15,7 @@
     </div>
 
     <div id="profile-picture">
-      <img src="images/cute_dogs.jpg" width="740" height="519" />
+      <img src="images/cute_dogs.jpg" width="300" height="210" />
     </div>
 
     <div id="welcome-text">
@@ -38,18 +38,25 @@
       </ol>
     </div>
 
-  </div>
-</body>
+    <!-- Webmap Reviews Section -->
+    <div id="webmap-reviews">
+      <h3>Webmap Reviews</h3>
+      <script>
+        document.write(webmap_table());
+      </script>
+    </div>
 
-  <div id="copyright">
-    <script>
-      // Create a Date variable for today
-      var today = new Date();
-      // Get the current year from the Date variable
-      var year = today.getFullYear();
-      // Write copyright statement with the current year
-      document.writeln("Copyright &copy; " + year);
-    </script>
-  </div>
-
-</html>
+    <!-- Copyright Section -->
+    <div id="copyright">
+      <script>
+        // Create a Date variable for today
+        var today = new Date();
+        // Get the current year
+        var year = today.getFullYear();
+        // Write copyright statement with the current year
+        document.writeln("Copyright &copy; " + year);
+      </script>
+    </div>
+    </div> <!-- end of body-container -->
+    </body>
+    </html>

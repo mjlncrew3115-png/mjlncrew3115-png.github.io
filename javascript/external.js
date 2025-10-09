@@ -25,16 +25,20 @@ function welcome()
 }
 document.write(welcome());
 
-function webmap_table()
-{
+function webmap_table() {
   document.write("<table width=100%>");
-  for (var row = 0; row < webmaps.length; row++)
-  {
-    document.write("<tr>");
-    for (var column = 0; column < webmaps[0].length; column++)
-    {
-      document.write("<td>" + webmaps[row][column] + "</td>");
+  for (var row = 0; row < webmaps.length; row++) {
+    // Alternate row color using conditional statement
+    if (row % 2 == 0) {
+      document.write("<tr style='background-color:#fde2e4;'>");
+    } else {
+      document.write("<tr style='background-color:#fff0f3;'>");
     }
+
+    for (var column = 0; column < webmaps[0].length; column++) {
+      document.write("<td style='padding:10px; vertical-align:top;'>" + webmaps[row][column] + "</td>");
+    }
+
     document.write("</tr>");
   }
   document.write("</table>");

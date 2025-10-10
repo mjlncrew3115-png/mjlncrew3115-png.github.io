@@ -101,7 +101,6 @@
     //
     // var polyline = L.polyline([[51.506, -0.08], [51.502, -0.06], [51.507, -0.047]]).addTo(mymap);
     //
-    //
     //   var ZoomViewer = L.Control.extend({onAdd: function (){
     //       var gauge = L.DomUtil.create('div');
     //       gauge.style.width = '200px';
@@ -114,6 +113,68 @@
     //     }
     // });
     // (new ZoomViewer).addTo(mymap);
+    // ✅ ADD: Seven Wonders (unique colored circle markers + popups)
+      const wonders = [
+        { name: "Taj Mahal (India)",        lat: 27.174961,  lon: 78.042385,   color: "#e41a1c",
+          img: "https://upload.wikimedia.org/wikipedia/commons/d/da/Taj-Mahal.jpg",
+          blurb: "17th-century marble mausoleum in Agra; UNESCO site and icon of Mughal architecture." },
+
+        { name: "Great Wall of China",      lat: 40.334245,  lon: 116.477652,  color: "#377eb8",
+          img: "https://commons.wikimedia.org/wiki/Special:FilePath/Great_Wall_of_China_July_2006.JPG?width=300",
+          blurb: "Fortifications rebuilt over centuries across northern China, stretching thousands of kilometers." },
+
+        { name: "Petra (Jordan)",           lat: 30.328611,  lon: 35.441944,   color: "#4daf4a",
+          img: "https://upload.wikimedia.org/wikipedia/commons/9/94/Al_Khazneh.jpg",
+          blurb: "Ancient Nabataean city famed for rock-cut façades and water engineering." },
+
+        { name: "Christ the Redeemer (Brazil)", lat: -22.951389, lon: -43.2108334, color: "#984ea3",
+          img: "https://commons.wikimedia.org/wiki/Special:FilePath/Cristo_Redentor_-_Rio_de_Janeiro%2C_Brasil.jpg?width=300",
+          blurb: "Art Deco statue on Mount Corcovado overlooking Rio de Janeiro." },
+
+        { name: "Machu Picchu (Peru)",      lat: -13.163056, lon: -72.545556,  color: "#ff7f00",
+          img: "https://upload.wikimedia.org/wikipedia/commons/e/eb/Machu_Picchu%2C_Peru.jpg",
+          blurb: "15th-century Inca citadel in the Andes with terraces and dry-stone walls." },
+
+        { name: "Chichén Itzá (Mexico)",    lat: 20.682778,  lon: -88.569167,  color: "#a65628",
+          img: "https://commons.wikimedia.org/wiki/Special:FilePath/Chichen_Itza_3.jpg?width=300",
+          blurb: "Major Maya city; El Castillo (Kukulcán) shows astronomical alignments." },
+
+        { name: "Colosseum (Rome)",         lat: 41.890169,  lon: 12.492269,   color: "#f781bf",
+          img: "https://commons.wikimedia.org/wiki/Special:FilePath/Colosseo_2020.jpg?width=300",
+          blurb: "Flavian amphitheatre used for spectacles; masterpiece of Roman engineering." }
+      ];
+
+      // Build all popups + markers and collect coords to zoom later
+      var pts = [];
+
+      wonders.forEach(function (w) {
+        // create the marker and keep a handle to it
+        var marker = L.circleMarker([w.lat, w.lon], {
+          radius: 9,
+          color: w.color,
+          fillColor: w.color,
+          fillOpacity: 0.85,
+          weight: 2
+        }).addTo(mymap);
+
+        // plain string concatenation (no backticks, no smart quotes)
+        var html =
+          '<div class="popup-wrap">' +
+            '<b>' + w.name + '</b><br>' +
+            '<img class="popup-img" src="' + w.img + '" alt="' + w.name + '">' +
+            '<div>' + w.blurb + '</div>' +
+          '</div>';
+
+        marker.bindPopup(html);
+
+        // save coords for fitBounds
+        pts.push([w.lat, w.lon]);
+      });
+
+      // Zoom to all points (replaces any setView)
+      mymap.fitBounds(pts, { padding: [20, 20] });
+
+
     var geocoder = L.Control.geocoder({
       defaultMarkGeocode: false,
       geocoder: new L.Control.Geocoder.Nominatim()

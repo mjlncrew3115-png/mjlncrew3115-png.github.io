@@ -2,3 +2,37 @@
 .leaflet-popup-tip {
   background: yellow;
 }
+
+.popup-img {
+  width: 220px;
+  height: auto;
+  display: block;
+  margin: 6px 0;
+  border-radius: 8px;
+}
+.popup-wrap b {
+  font-size: 1.05rem;
+}
+
+
+.leaflet-popup {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Style the INNER popup card only */
+.leaflet-popup-content-wrapper {
+  background: rgba(255, 255, 255, 0.8) !important;  /* ~40% transparent */
+  border: 3px solid #4b006e !important;            /* dark purple border */
+  border-radius: 16px !important;                  /* rounded corners */
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15) !important;
+}
+
+/* Make the tip match the card */
+.leaflet-popup-tip {
+  display: none !important;
+}    
+
+/* Keep your image nicely rounded */
+.popup-img { border-radius: 12px; }

@@ -116,7 +116,7 @@
       var value = dom.byId("valSelect");
       function doQuery(){
         resultsLayer.removeAll();
-        params.where = attributeName.value + expressionSign.value + value.value;
+        params.where = attributeName.value + " " + expressionSign.value + " " + value.value
         qTask.execute(params).then(getResults).catch(promiseRejected);
       }
       function getResults(response){
@@ -162,10 +162,10 @@
             }
           }
         ],
-        content: "<b>Population:" + "</b> {Population} " + "<br><b>Households:</b> {Household}" + "<br><b>Latitude:</b>
-      {Latitude}" + "<br><b>Longitude:</b> {Longitude}"
+        content: "<b>Population:</b> {Population} <br><b>Households:</b> {Household} <br><b>Latitude:</b> {Latitude} <br><b>Longitude:</b> {Longitude}"
       };
       var resultsLayer = new GraphicsLayer();
+      map.add(resultsLayer);
       var qTask = new QueryTask({ url: popUrl });
       var params = new Query({ returnGeometry: true, outFields: ["*"] });
     });

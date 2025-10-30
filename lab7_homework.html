@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"/>
+  <title>Lab 7 Homework – U.S. National Parks Visitation</title>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.21/esri/themes/light/main.css"/>
+  <script src="https://js.arcgis.com/4.21/"></script>
+  <style>
+    html, body { height:100%; width:100%; margin:0; }
+    #topBar { padding:12px; font-family:system-ui, sans-serif; }
+    #mapWrap { position:relative; height: calc(100% - 120px); }
+    #viewDiv { height:100%; width:100%; }
+
+    #optionsDiv {
+      position:absolute; right:15px; bottom:15px; z-index:10;
+      background:rgba(50,50,50,0.95); color:#fff; padding:12px; width:320px; border-radius:8px;
+    }
+    #optionsDiv select, #optionsDiv button { width:100%; margin-top:6px; padding:6px; }
+
+    #copyright {
+      position:absolute; left:8px; bottom:8px; background:rgba(255,255,255,0.9);
+      padding:4px 8px; border-radius:4px; font-size:12px; font-family:system-ui, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div id="topBar">
+    <h2 style="margin:0 0 8px 0;">Lab 7 Homework – U.S. National Parks Annual Visitation</h2>
+
+    <label for="taskLinks">View Task Pages:</label>
+    <select id="taskLinks" onchange="if(this.value){ window.open(this.value,'_blank'); this.selectedIndex=0; }">
+      <option value="">-- choose a page --</option>
+      <option value="https://mjlncrew3115-png.github.io/simple_mapping.html">Task 1 – simple_mapping.html</option>
+      <option value="https://mjlncrew3115-png.github.io/tile_layer.html">Task 2 – tile_layer.html</option>
+      <option value="https://mjlncrew3115-png.github.io/dynamic_layers.html">Task 2b – dynamic_layers.html</option>
+      <option value="https://mjlncrew3115-png.github.io/on_event.html">Task 3 – on_event.html</option>
+      <option value="https://mjlncrew3115-png.github.io/basemap_gallery.html">Task 4 – basemap_gallery.html</option>
+      <option value="https://mjlncrew3115-png.github.io/query_task.html">Task 5 – query_task.html</option>
+    </select>
+  </div>
+
+  <div id="mapWrap">
+    <div id="viewDiv"></div>
+
+    <div id="optionsDiv" class="esri-widget">
+      <h3 style="margin-top:0;">Query Parks by Annual Visitation</h3>
+
+      <label for="attSelect">Year</label>
+      <select id="attSelect" class="esri-widget">
+        <option value="F2018">2018</option>
+        <option value="F2019">2019</option>
+      </select>
+
+      <label for="signSelect">Operator</label>
+      <select id="signSelect" class="esri-widget">
+        <option value=" > ">is greater than</option>
+        <option value=" < ">is less than</option>
+        <option value=" = ">equals</option>
+      </select>
+
+      <label for="valSelect">Value</label>
+      <select id="valSelect" class="esri-widget">
+        <option value="100000">100,000</option>
+        <option value="500000">500,000</option>
+        <option value="1000000">1,000,000</option>
+      </select>
+
+      <button id="doBtn" class="esri-widget">Do Query</button>
+      <div id="printResults" style="margin-top:6px;font-size:12px;"></div>
+    </div>
+
+    <div id="copyright">© Marissa Lucke; Data: Esri sample – US_National_Parks_Annual_Visitation</div>
+  </div>
+
+  <script>
+    require([
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/layers/TileLayer",
+      "esri/layers/FeatureLayer",
+      "esri/layers/GraphicsLayer",
+      "esri/tasks/QueryTask",
+      "esri/tasks/support/Query",
+      "dojo/_base/array",
+      "dojo/dom",
+      "dojo/on",
+      "dojo/domReady!"
+    ], function(Map, MapView, TileLayer, FeatureLayer, GraphicsLayer, QueryTask, Query, arrayUtils, dom, on) {
+
+      // Feature service: US National Parks Annual Visitation
+      const PARKS_FS = "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/ArcGIS/rest/services/US_National_Parks_Annual_Visitation/FeatureServer/0";
+
+      // Show visible data on load
+      const parksLayer = new FeatureLayer({ url: PARKS_FS });
+
+      // Include a TileLayer
+      const transportation = new TileLayer({
+        url: "https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer"
+      });
+
+      // Map + sensible initial extent
+      const map = new Map({
+        basemap: "streets-navigation-vector",
+        layers: [transportation, parksLayer]
+      });
+
+      const view = new MapView({
+        container: "viewDiv",
+        map: map,
+        center: [-98.6, 39.8],
+        zoom: 4
+      });
+
+      // GraphicsLayer to display query results and animate to them
+      const resultsLayer = new GraphicsLayer();
+      map.add(resultsLayer);
+
+      // QueryTask targets the same parks layer
+      const qTask = new QueryTask({ url: PARKS_FS });
+
+      // Base params; WHERE is set dynamically from the dropdowns
+      const params = new Query({
+        returnGeometry: true,
+        outFields: ["*"]
+      });
+
+      // Popup showing selected attributes
+      const popupTemplate = {
+        title: "{Park}",
+        content: [{
+          type: "fields",
+          fieldInfos: [
+            { fieldName: "Park", label: "Park" },
+            { fieldName: "State", label: "State" },
+            { fieldName: "F2018", label: "2018 Visits" },
+            { fieldName: "F2019", label: "2019 Visits" }
+          ]
+        }]
+      };
+
+      // Wire query UI
+      view.when(function(){
+        on(dom.byId("doBtn"), "click", doQuery);
+      });
+
+      const attributeName = dom.byId("attSelect");
+      const expressionSign = dom.byId("signSelect");
+      const value = dom.byId("valSelect");
+
+      function doQuery(){
+        resultsLayer.removeAll();
+        params.where = attributeName.value + expressionSign.value + value.value;
+        qTask.execute(params).then(getResults).catch(promiseRejected);
+      }
+
+      function getResults(response){
+        const popResults = arrayUtils.map(response.features, function(feature){
+          feature.popupTemplate = popupTemplate;
+          return feature;
+        });
+
+        resultsLayer.addMany(popResults);
+
+        // Animate to results and open popup menu
+        view.goTo(popResults).then(function(){
+          view.popup.open({
+            features: popResults,
+            featureMenuOpen: true,
+            updateLocationEnabled: true
+          });
+        });
+
+        dom.byId("printResults").innerHTML = popResults.length + " results found!";
+      }
+
+      function promiseRejected(error){
+        console.error("Promise rejected: ", error.message,
+          " Parameter values: ", attributeName.value, expressionSign.value, value.value);
+      }
+    });
+  </script>
+</body>
+</html>
